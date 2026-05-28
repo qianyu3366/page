@@ -156,17 +156,37 @@
   .avatar-name { font-size: 1.125rem; font-weight: 600; text-align: center; }
   .avatar-sub { font-size: 0.75rem; color: var(--text-muted); text-align: center; line-height: 1.6; }
 
-  /* ── Hero campus illustration ── */
-  .hero-illustration {
+  /* ── Hero campus photos ── */
+  .hero-photos {
     position: relative; z-index: 1;
     margin-top: 3rem;
-    padding: 2rem 0 1rem;
+    padding-top: 2rem;
     border-top: 1px solid var(--rule);
   }
-  .hero-illustration svg { display: block; width: 100%; height: auto; max-height: 200px; }
-  .hero-illustration .caption {
+  .hero-photos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  .hero-photo-wrap {
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    transition: border-color 0.3s ease;
+    background: var(--neutral);
+    aspect-ratio: 16 / 10;
+  }
+  .hero-photo-wrap:hover { border-color: var(--accent); }
+  .hero-photo-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .hero-photo-wrap:hover img { transform: scale(1.03); }
+  .hero-photos .caption {
     font-size: 0.6875rem; color: var(--text-muted);
-    letter-spacing: 0.04em; text-align: center; margin-top: 0.5rem;
+    letter-spacing: 0.04em; text-align: center; margin-top: 0.75rem;
   }
 
   /* ── Stat row ── */
@@ -300,7 +320,7 @@
     .stat-row { gap: 1.5rem; flex-wrap: wrap; }
     .projects-grid { grid-template-columns: 1fr; }
     .contact-list { grid-template-columns: 1fr; }
-    .hero-illustration svg { max-height: 140px; }
+    .hero-photos-grid { grid-template-columns: 1fr; }
     .back-to-top { bottom: 1rem; right: 1rem; }
   }
 </style>
@@ -346,133 +366,16 @@
     </div>
   </div>
 
-  <!-- Campus illustration -->
-  <div class="hero-illustration">
-    <svg viewBox="0 0 900 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Sky gradient -->
-      <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#E8EDF5"/>
-          <stop offset="100%" stop-color="#F5F6F8"/>
-        </linearGradient>
-        <linearGradient id="building1" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#D0D5E0"/>
-          <stop offset="100%" stop-color="#B8BECC"/>
-        </linearGradient>
-        <linearGradient id="building2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#C5CBD6"/>
-          <stop offset="100%" stop-color="#A8AEBB"/>
-        </linearGradient>
-      </defs>
-
-      <!-- Ground -->
-      <rect x="0" y="120" width="900" height="60" fill="#F0F1F4"/>
-      <line x1="0" y1="120" x2="900" y2="120" stroke="#D8DBE2" stroke-width="1"/>
-
-      <!-- Background trees -->
-      <circle cx="60" cy="105" r="22" fill="#CDD4DF" opacity="0.6"/>
-      <circle cx="85" cy="98" r="18" fill="#C5CCD7" opacity="0.6"/>
-      <circle cx="830" cy="100" r="25" fill="#CDD4DF" opacity="0.6"/>
-      <circle cx="858" cy="96" r="20" fill="#C5CCD7" opacity="0.6"/>
-
-      <!-- Library building (left) -->
-      <rect x="130" y="40" width="110" height="80" rx="1" fill="url(#building1)"/>
-      <rect x="130" y="55" width="110" height="2" fill="#D8DBE2"/>
-      <rect x="130" y="75" width="110" height="2" fill="#D8DBE2"/>
-      <rect x="130" y="95" width="110" height="2" fill="#D8DBE2"/>
-      <!-- Windows -->
-      <rect x="148" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="162" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="176" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="190" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="204" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="218" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="148" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="162" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="176" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="190" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="204" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="218" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
-      <!-- Library dome -->
-      <ellipse cx="185" cy="40" rx="30" ry="12" fill="#C5CBD6"/>
-      <rect x="155" y="35" width="60" height="5" rx="1" fill="#B8BECC"/>
-
-      <!-- Teaching building (center) -->
-      <rect x="270" y="30" width="140" height="90" rx="1" fill="url(#building2)"/>
-      <rect x="270" y="50" width="140" height="2" fill="#CFD3DD"/>
-      <rect x="270" y="70" width="140" height="2" fill="#CFD3DD"/>
-      <rect x="270" y="90" width="140" height="2" fill="#CFD3DD"/>
-      <!-- Tower -->
-      <rect x="320" y="10" width="40" height="20" rx="1" fill="#B0B6C2"/>
-      <rect x="333" y="0" width="14" height="10" rx="1" fill="#A0A6B2"/>
-      <!-- Windows -->
-      <rect x="288" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="302" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="316" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="358" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="372" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="386" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="288" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="302" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="316" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="358" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="372" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="386" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="288" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="302" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="316" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="358" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="372" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="386" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
-
-      <!-- School gate (right) -->
-      <rect x="460" y="50" width="6" height="70" rx="1" fill="#A8AEBB"/>
-      <rect x="494" y="50" width="6" height="70" rx="1" fill="#A8AEBB"/>
-      <rect x="454" y="45" width="52" height="8" rx="1" fill="#B0B6C2"/>
-      <!-- Gate sign -->
-      <rect x="462" y="58" width="36" height="14" rx="1" fill="#1A56DB" opacity="0.35"/>
-
-      <!-- Right side buildings -->
-      <rect x="560" y="55" width="80" height="65" rx="1" fill="url(#building1)"/>
-      <rect x="560" y="68" width="80" height="2" fill="#D8DBE2"/>
-      <rect x="560" y="85" width="80" height="2" fill="#D8DBE2"/>
-      <rect x="578" y="60" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="592" y="60" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="606" y="60" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="620" y="60" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="578" y="73" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="592" y="73" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="606" y="73" width="7" height="12" rx="1" fill="#E8EDF5"/>
-      <rect x="620" y="73" width="7" height="12" rx="1" fill="#E8EDF5"/>
-
-      <!-- Dorm building (far right) -->
-      <rect x="670" y="60" width="70" height="60" rx="1" fill="url(#building2)"/>
-      <rect x="670" y="72" width="70" height="2" fill="#CFD3DD"/>
-      <rect x="670" y="88" width="70" height="2" fill="#CFD3DD"/>
-      <rect x="685" y="64" width="6" height="10" rx="1" fill="#E8EDF5"/>
-      <rect x="697" y="64" width="6" height="10" rx="1" fill="#E8EDF5"/>
-      <rect x="709" y="64" width="6" height="10" rx="1" fill="#E8EDF5"/>
-      <rect x="721" y="64" width="6" height="10" rx="1" fill="#E8EDF5"/>
-      <rect x="685" y="76" width="6" height="10" rx="1" fill="#E8EDF5"/>
-      <rect x="697" y="76" width="6" height="10" rx="1" fill="#E8EDF5"/>
-      <rect x="709" y="76" width="6" height="10" rx="1" fill="#E8EDF5"/>
-      <rect x="721" y="76" width="6" height="10" rx="1" fill="#E8EDF5"/>
-
-      <!-- Trees along road -->
-      <circle cx="250" cy="108" r="14" fill="#C5CCD7" opacity="0.7"/>
-      <circle cx="450" cy="108" r="14" fill="#C5CCD7" opacity="0.7"/>
-      <circle cx="545" cy="108" r="14" fill="#C5CCD7" opacity="0.7"/>
-
-      <!-- Road / path -->
-      <rect x="0" y="117" width="900" height="6" fill="#E2E5EA"/>
-
-      <!-- Birds -->
-      <path d="M95 30 Q100 26 105 30" stroke="#B0B6C2" stroke-width="1" fill="none"/>
-      <path d="M108 22 Q112 19 116 22" stroke="#B0B6C2" stroke-width="1" fill="none"/>
-
-      <!-- Sun -->
-      <circle cx="810" cy="28" r="12" fill="#E8EDF5" stroke="#D8DBE2" stroke-width="1"/>
-    </svg>
+  <!-- Campus photos -->
+  <div class="hero-photos fade-in">
+    <div class="hero-photos-grid">
+      <div class="hero-photo-wrap">
+        <img src="t048477c1162e1455f0.jpg" alt="淮安大学校园" loading="lazy">
+      </div>
+      <div class="hero-photo-wrap">
+        <img src="t0432df45da26b8efe5.jpg" alt="淮安大学校园" loading="lazy">
+      </div>
+    </div>
     <p class="caption">淮安大学 · 枚乘路校区</p>
   </div>
 </section>
