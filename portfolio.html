@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陈文轩 · 个人主页</title>
+<meta name="description" content="陈文轩，淮安大学计算机与软件工程学院物联网工程本科生个人主页">
+<style>
+  :root {
+    --surface: #FFFFFF;
+    --neutral: #F5F6F8;
+    --accent: #1A56DB;
+    --accent-dark: #1E429F;
+    --accent-light: rgba(26,86,219,0.06);
+    --accent-mid: rgba(26,86,219,0.12);
+    --text: #1A1A1A;
+    --text-muted: #5F6B7A;
+    --rule: #E2E5EA;
+    --gap: 1.5rem;
+    --max-width: 900px;
+    --radius: 0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    color: var(--text);
+    background: var(--surface);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── Subtle grid texture ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: -1;
+    opacity: 0.18;
+    background-image:
+      linear-gradient(var(--rule) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  /* ── Navigation ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.86);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    max-width: var(--max-width); margin: 0 auto;
+    padding: 0 var(--gap);
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-name {
+    font-size: 1rem; font-weight: 600;
+    letter-spacing: 0.02em; color: var(--text);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-name:hover { color: var(--accent); }
+  .nav-links { display: flex; list-style: none; gap: 2.25rem; }
+  .nav-links a {
+    font-size: 0.8125rem; color: var(--text-muted);
+    text-decoration: none; transition: color 0.2s;
+    letter-spacing: 0.02em; padding: 0.25rem 0; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute;
+    left: 0; bottom: 0; width: 0; height: 1.5px;
+    background: var(--accent); transition: width 0.25s ease;
+  }
+  .nav-links a.active, .nav-links a:hover { color: var(--text); }
+  .nav-links a.active::after, .nav-links a:hover::after { width: 100%; }
+
+  .nav-mobile-toggle {
+    display: none; background: none; border: none;
+    width: 32px; height: 32px;
+    flex-direction: column; justify-content: center; gap: 5px;
+    cursor: pointer; padding: 4px;
+  }
+  .nav-mobile-toggle span { display: block; height: 1.5px; background: var(--text); transition: transform 0.25s, opacity 0.25s; }
+
+  /* ── Section shared ── */
+  .section { max-width: var(--max-width); margin: 0 auto; padding: 96px var(--gap) 80px; }
+  .section-label {
+    font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.12em;
+    color: var(--text-muted); margin-bottom: var(--gap);
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .section-title {
+    font-size: 1.75rem; font-weight: 600; letter-spacing: -0.01em;
+    margin-bottom: 2.5rem; color: var(--text);
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 130px var(--gap) 60px;
+    max-width: var(--max-width); margin: 0 auto;
+    position: relative;
+  }
+  .hero-body {
+    display: flex; gap: 3rem; align-items: flex-start;
+    position: relative; z-index: 2;
+  }
+  .hero-text { flex: 1; }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.75rem; letter-spacing: 0.06em;
+    color: var(--accent);
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+    font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.2; margin-bottom: 0.75rem;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero .role {
+    font-size: 1rem; color: var(--text-muted);
+    font-weight: 400; margin-bottom: 1rem; line-height: 1.6;
+  }
+  .hero .summary {
+    font-size: 0.9375rem; color: var(--text-muted);
+    line-height: 1.75; max-width: 520px;
+  }
+
+  /* ── Avatar ── */
+  .avatar-col {
+    flex-shrink: 0; display: flex;
+    flex-direction: column; align-items: center; gap: 0.75rem;
+  }
+  .avatar {
+    width: 108px; height: 108px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-light), var(--accent-mid));
+    border: 2px solid var(--rule);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; font-weight: 700; color: var(--accent);
+    flex-shrink: 0; overflow: hidden; transition: border-color 0.3s;
+  }
+  .avatar:hover { border-color: var(--accent); }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .avatar-name { font-size: 1.125rem; font-weight: 600; text-align: center; }
+  .avatar-sub { font-size: 0.75rem; color: var(--text-muted); text-align: center; line-height: 1.6; }
+
+  /* ── Hero campus illustration ── */
+  .hero-illustration {
+    position: relative; z-index: 1;
+    margin-top: 3rem;
+    padding: 2rem 0 1rem;
+    border-top: 1px solid var(--rule);
+  }
+  .hero-illustration svg { display: block; width: 100%; height: auto; max-height: 200px; }
+  .hero-illustration .caption {
+    font-size: 0.6875rem; color: var(--text-muted);
+    letter-spacing: 0.04em; text-align: center; margin-top: 0.5rem;
+  }
+
+  /* ── Stat row ── */
+  .stat-row {
+    display: flex; gap: 2.5rem; margin-top: 1.75rem;
+    padding-top: 1.5rem; border-top: 1px solid var(--rule);
+  }
+  .stat-item .stat-num {
+    font-size: 1.5rem; font-weight: 700;
+    letter-spacing: -0.02em; color: var(--accent);
+  }
+  .stat-item .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.125rem; }
+
+  /* ── Skills ── */
+  .skill-group { margin-bottom: 1.5rem; }
+  .skill-group:last-child { margin-bottom: 0; }
+  .skill-group-title {
+    font-size: 0.6875rem; letter-spacing: 0.08em;
+    color: var(--text-muted); margin-bottom: 0.625rem;
+  }
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    display: inline-block; padding: 0.375rem 0.875rem;
+    font-size: 0.8125rem; border: 1px solid var(--rule);
+    border-radius: 999px; color: var(--text); background: var(--surface);
+    transition: all 0.2s; cursor: default;
+  }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 0; }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 1px; background: var(--rule);
+  }
+  .timeline-item { position: relative; padding-left: 2rem; padding-bottom: 2rem; transition: transform 0.35s ease; }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-item::before {
+    content: ''; position: absolute;
+    left: -4px; top: 6px; width: 9px; height: 9px;
+    border-radius: 50%; background: var(--surface);
+    border: 2px solid var(--rule); transition: all 0.35s ease;
+  }
+  .timeline-item.active-item::before {
+    border-color: var(--accent); background: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-light);
+  }
+  .timeline-item.active-item { transform: translateX(6px); }
+  .timeline-date {
+    font-size: 0.75rem; letter-spacing: 0.06em;
+    color: var(--text-muted); margin-bottom: 0.25rem;
+  }
+  .timeline-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.125rem; }
+  .timeline-sub { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .timeline-body { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+  /* ── Projects ── */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 1.25rem; }
+  .project-card {
+    border: 1px solid var(--rule); padding: 1.5rem;
+    transition: all 0.3s ease; position: relative; background: var(--surface);
+  }
+  .project-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 0;
+    background: var(--accent); transition: height 0.25s ease;
+  }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.05); }
+  .project-card:hover::before { height: 3px; }
+  .project-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; transition: color 0.2s; }
+  .project-card:hover h3 { color: var(--accent); }
+  .project-card p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; }
+  .project-tag {
+    font-size: 0.6875rem; letter-spacing: 0.03em; color: var(--text-muted);
+    padding: 0.125rem 0.5rem; border: 1px solid var(--rule); transition: all 0.2s;
+  }
+
+  /* ── Contact ── */
+  .contact-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .contact-item {
+    padding: 1.25rem; border: 1px solid var(--rule);
+    transition: all 0.25s ease; background: var(--surface);
+  }
+  .contact-item:hover { border-color: var(--accent); background: var(--accent-light); }
+  .contact-item .label { font-size: 0.6875rem; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.25rem; }
+  .contact-item .value { font-size: 0.9375rem; color: var(--text); word-break: break-all; }
+  .contact-item .value a {
+    color: var(--accent); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.2s;
+  }
+  .contact-item .value a:hover { border-color: var(--accent); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center; padding: 1.5rem var(--gap);
+    border-top: 1px solid var(--rule);
+    font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.03em;
+  }
+
+  /* ── Back to top ── */
+  .back-to-top {
+    position: fixed; bottom: 2rem; right: 2rem;
+    width: 40px; height: 40px; border: 1px solid var(--rule);
+    background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; opacity: 0; transform: translateY(12px);
+    transition: all 0.3s ease; z-index: 99;
+    font-size: 1.125rem; color: var(--text-muted);
+  }
+  .back-to-top.visible { opacity: 1; transform: translateY(0); }
+  .back-to-top:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+  /* ── Scroll animations ── */
+  .fade-in {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .nav-mobile-toggle { display: flex; }
+    .section { padding: 64px var(--gap) 48px; }
+    .hero { padding: 112px var(--gap) 48px; }
+    .hero-body { flex-direction: column-reverse; gap: 1.5rem; }
+    .avatar-col { flex-direction: row; gap: 1rem; }
+    .avatar { width: 72px; height: 72px; font-size: 1.5rem; }
+    .avatar-name, .avatar-sub { text-align: left; }
+    .stat-row { gap: 1.5rem; flex-wrap: wrap; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .contact-list { grid-template-columns: 1fr; }
+    .hero-illustration svg { max-height: 140px; }
+    .back-to-top { bottom: 1rem; right: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-name">陈文轩</a>
+    <ul class="nav-links">
+      <li><a href="#skills">技能</a></li>
+      <li><a href="#experience">经历</a></li>
+      <li><a href="#projects">项目</a></li>
+      <li><a href="#contact">联系</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" id="mobile-toggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-body">
+    <div class="hero-text">
+      <p class="hero-badge">&#9998; 在读本科生</p>
+      <h1>你好，我是<span class="accent">陈文轩</span></h1>
+      <p class="role">淮安大学 · 计算机与软件工程学院 · 物联网工程 2024 级</p>
+      <p class="summary">
+        热爱嵌入式系统与物联网技术，正在探索从底层硬件到云端服务的全链路技术栈。
+        享受用代码解决实际问题的过程，持续积累工程实践经验。
+      </p>
+      <div class="stat-row">
+        <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">课程项目</div></div>
+        <div class="stat-item"><div class="stat-num">5</div><div class="stat-label">技能方向</div></div>
+        <div class="stat-item"><div class="stat-num">2024</div><div class="stat-label">入学年份</div></div>
+      </div>
+    </div>
+    <div class="avatar-col">
+      <div class="avatar">陈</div>
+      <div class="avatar-name">陈文轩</div>
+      <div class="avatar-sub">淮安大学 本科在读<br>物联网工程专业</div>
+    </div>
+  </div>
+
+  <!-- Campus illustration -->
+  <div class="hero-illustration">
+    <svg viewBox="0 0 900 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Sky gradient -->
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#E8EDF5"/>
+          <stop offset="100%" stop-color="#F5F6F8"/>
+        </linearGradient>
+        <linearGradient id="building1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#D0D5E0"/>
+          <stop offset="100%" stop-color="#B8BECC"/>
+        </linearGradient>
+        <linearGradient id="building2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#C5CBD6"/>
+          <stop offset="100%" stop-color="#A8AEBB"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Ground -->
+      <rect x="0" y="120" width="900" height="60" fill="#F0F1F4"/>
+      <line x1="0" y1="120" x2="900" y2="120" stroke="#D8DBE2" stroke-width="1"/>
+
+      <!-- Background trees -->
+      <circle cx="60" cy="105" r="22" fill="#CDD4DF" opacity="0.6"/>
+      <circle cx="85" cy="98" r="18" fill="#C5CCD7" opacity="0.6"/>
+      <circle cx="830" cy="100" r="25" fill="#CDD4DF" opacity="0.6"/>
+      <circle cx="858" cy="96" r="20" fill="#C5CCD7" opacity="0.6"/>
+
+      <!-- Library building (left) -->
+      <rect x="130" y="40" width="110" height="80" rx="1" fill="url(#building1)"/>
+      <rect x="130" y="55" width="110" height="2" fill="#D8DBE2"/>
+      <rect x="130" y="75" width="110" height="2" fill="#D8DBE2"/>
+      <rect x="130" y="95" width="110" height="2" fill="#D8DBE2"/>
+      <!-- Windows -->
+      <rect x="148" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="162" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="176" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="190" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="204" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="218" y="60" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="148" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="162" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="176" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="190" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="204" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="218" y="80" width="8" height="12" rx="1" fill="#E8EDF5"/>
+      <!-- Library dome -->
+      <ellipse cx="185" cy="40" rx="30" ry="12" fill="#C5CBD6"/>
+      <rect x="155" y="35" width="60" height="5" rx="1" fill="#B8BECC"/>
+
+      <!-- Teaching building (center) -->
+      <rect x="270" y="30" width="140" height="90" rx="1" fill="url(#building2)"/>
+      <rect x="270" y="50" width="140" height="2" fill="#CFD3DD"/>
+      <rect x="270" y="70" width="140" height="2" fill="#CFD3DD"/>
+      <rect x="270" y="90" width="140" height="2" fill="#CFD3DD"/>
+      <!-- Tower -->
+      <rect x="320" y="10" width="40" height="20" rx="1" fill="#B0B6C2"/>
+      <rect x="333" y="0" width="14" height="10" rx="1" fill="#A0A6B2"/>
+      <!-- Windows -->
+      <rect x="288" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="302" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="316" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="358" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="372" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="386" y="35" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="288" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="302" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="316" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="358" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="372" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="386" y="55" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="288" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="302" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="316" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="358" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="372" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="386" y="75" width="7" height="12" rx="1" fill="#E8EDF5"/>
+
+      <!-- School gate (right) -->
+      <rect x="460" y="50" width="6" height="70" rx="1" fill="#A8AEBB"/>
+      <rect x="494" y="50" width="6" height="70" rx="1" fill="#A8AEBB"/>
+      <rect x="454" y="45" width="52" height="8" rx="1" fill="#B0B6C2"/>
+      <!-- Gate sign -->
+      <rect x="462" y="58" width="36" height="14" rx="1" fill="#1A56DB" opacity="0.35"/>
+
+      <!-- Right side buildings -->
+      <rect x="560" y="55" width="80" height="65" rx="1" fill="url(#building1)"/>
+      <rect x="560" y="68" width="80" height="2" fill="#D8DBE2"/>
+      <rect x="560" y="85" width="80" height="2" fill="#D8DBE2"/>
+      <rect x="578" y="60" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="592" y="60" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="606" y="60" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="620" y="60" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="578" y="73" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="592" y="73" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="606" y="73" width="7" height="12" rx="1" fill="#E8EDF5"/>
+      <rect x="620" y="73" width="7" height="12" rx="1" fill="#E8EDF5"/>
+
+      <!-- Dorm building (far right) -->
+      <rect x="670" y="60" width="70" height="60" rx="1" fill="url(#building2)"/>
+      <rect x="670" y="72" width="70" height="2" fill="#CFD3DD"/>
+      <rect x="670" y="88" width="70" height="2" fill="#CFD3DD"/>
+      <rect x="685" y="64" width="6" height="10" rx="1" fill="#E8EDF5"/>
+      <rect x="697" y="64" width="6" height="10" rx="1" fill="#E8EDF5"/>
+      <rect x="709" y="64" width="6" height="10" rx="1" fill="#E8EDF5"/>
+      <rect x="721" y="64" width="6" height="10" rx="1" fill="#E8EDF5"/>
+      <rect x="685" y="76" width="6" height="10" rx="1" fill="#E8EDF5"/>
+      <rect x="697" y="76" width="6" height="10" rx="1" fill="#E8EDF5"/>
+      <rect x="709" y="76" width="6" height="10" rx="1" fill="#E8EDF5"/>
+      <rect x="721" y="76" width="6" height="10" rx="1" fill="#E8EDF5"/>
+
+      <!-- Trees along road -->
+      <circle cx="250" cy="108" r="14" fill="#C5CCD7" opacity="0.7"/>
+      <circle cx="450" cy="108" r="14" fill="#C5CCD7" opacity="0.7"/>
+      <circle cx="545" cy="108" r="14" fill="#C5CCD7" opacity="0.7"/>
+
+      <!-- Road / path -->
+      <rect x="0" y="117" width="900" height="6" fill="#E2E5EA"/>
+
+      <!-- Birds -->
+      <path d="M95 30 Q100 26 105 30" stroke="#B0B6C2" stroke-width="1" fill="none"/>
+      <path d="M108 22 Q112 19 116 22" stroke="#B0B6C2" stroke-width="1" fill="none"/>
+
+      <!-- Sun -->
+      <circle cx="810" cy="28" r="12" fill="#E8EDF5" stroke="#D8DBE2" stroke-width="1"/>
+    </svg>
+    <p class="caption">淮安大学 · 枚乘路校区</p>
+  </div>
+</section>
+
+<!-- Skills -->
+<section class="section" id="skills">
+  <div class="section-label fade-in">01</div>
+  <h2 class="section-title fade-in">技能</h2>
+  <div class="fade-in">
+    <div class="skill-group">
+      <div class="skill-group-title">编程语言</div>
+      <div class="skills-grid">
+        <span class="skill-tag">C</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">HTML / CSS</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">嵌入式与硬件</div>
+      <div class="skills-grid">
+        <span class="skill-tag">Arduino</span>
+        <span class="skill-tag">STM32</span>
+        <span class="skill-tag">ESP8266</span>
+        <span class="skill-tag">传感器</span>
+        <span class="skill-tag">串口通信</span>
+        <span class="skill-tag">Keil</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">网络与协议</div>
+      <div class="skills-grid">
+        <span class="skill-tag">TCP/IP</span>
+        <span class="skill-tag">MQTT</span>
+        <span class="skill-tag">HTTP</span>
+        <span class="skill-tag">Socket 编程</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">工具与平台</div>
+      <div class="skills-grid">
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">GitHub</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">VS Code</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">Node.js</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section class="section" id="experience">
+  <div class="section-label fade-in">02</div>
+  <h2 class="section-title fade-in">教育经历</h2>
+  <div class="timeline fade-in">
+    <div class="timeline-item">
+      <div class="timeline-date">2024.09 — 至今</div>
+      <div class="timeline-title">物联网工程 本科</div>
+      <div class="timeline-sub">淮安大学 · 计算机与软件工程学院</div>
+      <div class="timeline-body">
+        主修课程：C 语言程序设计、数据结构、计算机组成原理、操作系统、计算机网络、物联网通信技术。
+        课余积极参与技术实践，通过实际项目将课堂知识转化为工程能力。
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024.10 — 至今</div>
+      <div class="timeline-title">技术自学与实践</div>
+      <div class="timeline-sub">课余自主学习</div>
+      <div class="timeline-body">
+        系统学习嵌入式开发（Arduino / STM32 / ESP8266）与物联网通信协议（MQTT）。
+        在 GitHub 上记录学习过程与项目代码，逐步建立个人技术积累体系。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="section" id="projects">
+  <div class="section-label fade-in">03</div>
+  <h2 class="section-title fade-in">项目</h2>
+  <div class="projects-grid fade-in">
+    <div class="project-card">
+      <h3>智能温湿度监测系统</h3>
+      <p>基于 Arduino + DHT11 传感器的环境监测装置，实时采集温湿度数据并通过串口上传至 PC 端可视化展示。</p>
+      <div class="project-tags">
+        <span class="project-tag">Arduino</span>
+        <span class="project-tag">C++</span>
+        <span class="project-tag">传感器</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <h3>课程成绩管理系统</h3>
+      <p>使用 C 语言开发的命令行成绩管理工具，支持学生信息增删改查、成绩排序统计与文件持久化存储。</p>
+      <div class="project-tags">
+        <span class="project-tag">C 语言</span>
+        <span class="project-tag">数据结构</span>
+        <span class="project-tag">文件操作</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <h3>个人主页 (此网站)</h3>
+      <p>从零设计并实现的个人在线主页，纯静态单文件架构，支持响应式布局、滚动动画与移动端适配。</p>
+      <div class="project-tags">
+        <span class="project-tag">HTML</span>
+        <span class="project-tag">CSS</span>
+        <span class="project-tag">JavaScript</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <h3>物联网数据上云实验</h3>
+      <p>通过 ESP8266 将传感器数据经 MQTT 协议发送至云端平台，实现远程监控与数据存储的端到端链路验证。</p>
+      <div class="project-tags">
+        <span class="project-tag">ESP8266</span>
+        <span class="project-tag">MQTT</span>
+        <span class="project-tag">WiFi</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="section" id="contact">
+  <div class="section-label fade-in">04</div>
+  <h2 class="section-title fade-in">联系方式</h2>
+  <div class="contact-list fade-in">
+    <div class="contact-item">
+      <div class="label">邮箱</div>
+      <div class="value"><a href="mailto:qy3237453841@yeah.net">qy3237453841@yeah.net</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="label">GitHub</div>
+      <div class="value"><a href="https://github.com/qianyu3366" target="_blank" rel="noopener">github.com/qianyu3366</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="label">学校</div>
+      <div class="value">淮安大学 计算机与软件工程学院</div>
+    </div>
+    <div class="contact-item">
+      <div class="label">专业</div>
+      <div class="value">物联网工程 2024 级</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">&copy; 2026 陈文轩</footer>
+
+<button class="back-to-top" id="back-top" aria-label="回到顶部">&uarr;</button>
+
+<script>
+(function () {
+  'use strict';
+
+  /* Fade-in on scroll */
+  var fadeEls = document.querySelectorAll('.fade-in');
+  var fadeObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  fadeEls.forEach(function (el) { fadeObs.observe(el); });
+
+  /* Scroll spy */
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav-links a');
+  var spyObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      navLinks.forEach(function (a) { a.classList.remove('active'); });
+      var link = document.querySelector('.nav-links a[href="#' + e.target.id + '"]');
+      if (link) link.classList.add('active');
+    });
+  }, { rootMargin: '-80px 0px -60% 0px' });
+  sections.forEach(function (s) { spyObs.observe(s); });
+
+  /* Timeline activation */
+  var items = document.querySelectorAll('.timeline-item');
+  var itemObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { e.target.classList.toggle('active-item', e.isIntersecting); });
+  }, { rootMargin: '-15% 0px -15% 0px', threshold: 0 });
+  items.forEach(function (i) { itemObs.observe(i); });
+
+  /* Back to top */
+  var backBtn = document.getElementById('back-top');
+  var hero = document.getElementById('hero');
+  var topObs = new IntersectionObserver(function (entries) {
+    backBtn.classList.toggle('visible', !entries[0].isIntersecting);
+  }, { threshold: 0 });
+  topObs.observe(hero);
+  backBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  /* Mobile nav */
+  var toggle = document.getElementById('mobile-toggle');
+  var mobileNav = document.querySelector('.nav-links');
+  var open = false;
+  toggle.addEventListener('click', function () {
+    open = !open;
+    if (open) {
+      Object.assign(mobileNav.style, {
+        display: 'flex', position: 'absolute', top: '56px', left: '0', right: '0',
+        background: 'var(--surface)', borderBottom: '1px solid var(--rule)',
+        padding: '1rem var(--gap)', flexDirection: 'column', gap: '0.75rem'
+      });
+    } else {
+      mobileNav.style.cssText = '';
+    }
+  });
+  mobileNav.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { if (open) { open = false; mobileNav.style.cssText = ''; } });
+  });
+})();
+</script>
+</body>
+</html>
